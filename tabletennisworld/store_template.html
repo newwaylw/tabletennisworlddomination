@@ -49,7 +49,7 @@
               $.ajax({
                   url: '/classify',
                   type: 'POST',
-                  data: { text: text },
+                  data: { attacker: {{ user }}, country: data.getValue(selection[0].row,0) },
                   dataType: 'json',
                   success: function(result) {
                     alert("Your challenge has been sent");
