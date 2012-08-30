@@ -5,10 +5,10 @@ import webapp2
 
 from google.appengine.ext import db
 from google.appengine.api import users
-from google.appengine.ext.webapp.util import run_wsgi_app
+#from google.appengine.ext.webapp.util import run_wsgi_app
 
-class Invation(db.Model):
-    '''records an invation '''
+class InvasionHistory(db.Model):
+    '''records an invasion '''
     #id = db.IntegerProperty()
     invader = db.StringProperty(required=True) #login detail ?
     countryOfInvader = db.StringProperty(required=True) 
@@ -21,6 +21,32 @@ class Country(db.Model):
     countryName = db.StringProperty(required=True)
     '''current person'''
     occupier = db.StringProperty() 
+    
+    
+def get_salutation(email):
+  """ Take a guess at how to address someone based on the first
+  segment of their email address """
+  return email.split("@")[0].replace(".", " ").title() 
+
+def everybodys_name():
+  """ Get a list of everybody's names for reverse name matching """
+  return Country.
+    
+def update_result(result):
+    """ Takes a series of parameters representing a match and commits the result,
+  changing rankings and news feeds where necessary """
+  invader = result['invader'] 
+  countryOfInvader       = result['countryOfInvader'] 
+  invadee          = result['invadee'] 
+  countryOfInvadee        = result['countryOfInvadee'] 
+    invasion = InvasionHistory(
+          invader         ,
+          countryOfInvader,
+          invadee,
+          countryOfInvadee,
+          datetime.dateime.now() )
+    
+    #TO DO#
 '''    
 class Greeting(db.Model):
   """Models an individual Guestbook entry with an author, content, and date."""
