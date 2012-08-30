@@ -5,22 +5,60 @@ import webapp2
 
 from google.appengine.ext import db
 from google.appengine.api import users
-from google.appengine.ext.webapp.util import run_wsgi_app
+#from google.appengine.ext.webapp.util import run_wsgi_app
 
-class Invation(db.Model):
-    '''records an invation '''
+class InvasionHistory(db.Model):
+    '''records an invasion '''
     #id = db.IntegerProperty()
     invader = db.StringProperty(required=True) #login detail ?
     countryOfInvader = db.StringProperty(required=True) 
-    invadee = db.StringProperty(required=True) #login detail ?
-    countryOfInvadee = db.StringProperty(required=True)
+    defender = db.StringProperty(required=True) #login detail ?
+    countryOfdefender = db.StringProperty(required=True)
     date = db.DateTimeProperty(auto_now_add=True)
 
-class Country(db.Model):
+class Territory(db.Model):
     '''records the country and who occupies it'''
     countryName = db.StringProperty(required=True)
     '''current person'''
     occupier = db.StringProperty() 
+    
+class Challenges(db.Model):
+  '''a list of open challenges'''
+  invader = db.StringProperty(required=True)
+  defender = db.StringProperty(required=True)
+  countryOfdefender = db.StringProperty(required=True)
+  date = db.DateTimeProperty(auto_now_add=True)
+    
+def get_salutation(email):
+  """ Take a guess at how to address someone based on the first
+  segment of their email address """
+  return email.split("@")[0].replace(".", " ").title() 
+
+def everybodys_name():
+  """ Get a list of everybody's names for reverse name matching """
+  return Territory.all();
+    
+def update_result(result):
+  """ Takes a series of parameters representing a match and commits the result,
+  changing rankings and news feeds where necessary """
+  invader = result['invader'] 
+  countryOfInvader       = result['countryOfInvader'] 
+  defender          = result['defender'] 
+  countryOfdefender        = result['countryOfdefender'] 
+  invasionHistory = InvasionHistory(
+          invader         ,
+          countryOfInvader,
+          defender,
+          countryOfdefender,
+          datetime.datetime.now() )
+
+  #
+  t_record = Territory.get_by_key_name(countryOfdefender)
+  t_record.occupier = invader
+  Territory.put(t_record)  
+  #update territory info
+
+  db.put([invasionHistory,])
 '''    
 class Greeting(db.Model):
   """Models an individual Guestbook entry with an author, content, and date."""
