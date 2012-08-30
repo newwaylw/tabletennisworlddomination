@@ -6,19 +6,19 @@
      google.load('visualization', '1', {'packages': ['geochart']});
      google.setOnLoadCallback(drawRegionsMap);
 
-      function drawRegionsMap() {
+     function drawRegionsMap() {
         
-        var data = google.visualization.arrayToDataTable([
+         var data = google.visualization.arrayToDataTable([
           ['Country', 'Owner'],
             {% for country in countries %}
-            ['{{ country[0] }}','{{ country[1] }}'],
+            ['{{ country.0 }}',{{ country.1 }}],
             
             {% endfor %}
         ]);
         var nameData = google.visualization.arrayToDataTable([
           ['Key', 'Name'],
           {% for person in people %}
-            ['{{ person[0] }}','{{ person[1] }}'],
+            [{{ person.0 }},'{{ person.1 }}'],
             
             {% endfor %}
         ]);
@@ -26,11 +26,13 @@
         var options = {
           region: '150',
           colorAxis: {colors: [
-          {% for person in people %} '{{ person[2] }}',
-            {% endfor %}
-            ], values: [{% for person in people %}
-            '{{ person[0] }}',
-            {% endfor %}]}] }
+          {% for person in people %} 
+            '{{ person.2 }}',
+          {% endfor %}
+            ], values: [
+            {% for person in people %}
+            {{ person.0 }},
+            {% endfor %}]} 
            
         };
 
@@ -42,7 +44,7 @@
         
         
           var selection = chart.getSelection();
-          
+          /*
           var result = confirm(data.getValue(selection[0].row,0)+'\nOwned by: ' + nameData.getValue(data.getValue(selection[0].row,1),1)
                               +"\n\nClick OK to attack");
           if (result==true) {
@@ -59,7 +61,7 @@
                   }
              });
             
-          }
+          }*/
         
         }
       

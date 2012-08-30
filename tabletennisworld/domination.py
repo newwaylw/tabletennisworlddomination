@@ -5,7 +5,12 @@ import webapp2
 
 from google.appengine.ext import db
 from google.appengine.api import users
-#from google.appengine.ext.webapp.util import run_wsgi_app
+
+from google.appengine.ext.webapp import template
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp.util import run_wsgi_app
+
+import bordering
 
 class InvasionHistory(db.Model):
     '''records an invasion '''
@@ -139,15 +144,28 @@ class Guestbook(webapp2.RequestHandler):
     self.redirect('/?' + urllib.urlencode({'guestbook_name': guestbook_name}))
 
 
-app = webapp2.WSGIApplication([('/', MainPage),
-                               ('/sign', Guestbook)],
-                              debug=True)
 
 
 class Domination(webapp2.RequestHandler):
   def post(self):
       
 '''      
+
+
+
+class WorldView(webapp2.RequestHandler):
+    def get(self):
+        template_values = {
+            'user'        : "adam@swiftkey.net",
+            'countries' : [["United Kingdom",1],["France",2]],
+            'people'    : [[1, "Adam", "blue"],
+                           [2, "Anita", "red"]]
+            }
+        self.response.out.write (bordering.allCountries())
+        #self.response.out.write(template.render('store_template.html', template_values))
+        
+app = webapp2.WSGIApplication([('/', WorldView)],
+                              debug=True)
       
       
 def main():
