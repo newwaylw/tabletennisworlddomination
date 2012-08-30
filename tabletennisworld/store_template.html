@@ -18,7 +18,7 @@
         var nameData = google.visualization.arrayToDataTable([
           ['Key', 'Name'],
           {% for person in people %}
-            ['{{ people[0] }}','{{ people[1] }}'],
+            ['{{ person[0] }}','{{ person[1] }}'],
             
             {% endfor %}
         ]);
@@ -26,10 +26,10 @@
         var options = {
           region: '150',
           colorAxis: {colors: [
-          {% for person in people %} '{{ people[2] }}',
+          {% for person in people %} '{{ person[2] }}',
             {% endfor %}
             ], values: [{% for person in people %}
-            '{{ people[0] }}',
+            '{{ person[0] }}',
             {% endfor %}]}] }
            
         };
