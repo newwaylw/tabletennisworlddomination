@@ -11,14 +11,14 @@
         var data = google.visualization.arrayToDataTable([
           ['Country', 'Owner'],
             {% for country in countries %}
-            ['{{ country }}','{{ owner }}'],
+            ['{{ country[0] }}','{{ country[1] }}'],
             
             {% endfor %}
         ]);
         var nameData = google.visualization.arrayToDataTable([
           ['Key', 'Name'],
           {% for person in people %}
-            ['{{ key }}','{{ name }}'],
+            ['{{ people[0] }}','{{ people[1] }}'],
             
             {% endfor %}
         ]);
@@ -26,10 +26,10 @@
         var options = {
           region: '150',
           colorAxis: {colors: [
-          {% for person in people %} '{{ color }}',
+          {% for person in people %} '{{ people[2] }}',
             {% endfor %}
             ], values: [{% for person in people %}
-            '{{ key }}',
+            '{{ people[0] }}',
             {% endfor %}]}] }
            
         };
